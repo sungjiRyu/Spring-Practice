@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Admin Account List</h1>
+    <p th:text="${accountList}"></p>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>등급</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="admin, i : ${accountList}">
+                <td th:text = "${admin.seq}"></td>
+                <td th:text = "${admin.id}"></td>
+                <td th:text = "${admin.name}"></td>
+                <td>
+                    <th:block th:switch="${admin.grade}">
+                        <span th:case="1">일반</span>
+                        <span th:case="99">슈퍼유저</span>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:switch="${admin.status}">
+                        <span th:case="0">등록대기</span>
+                        <span th:case="1">사용가능</span>
+                        <span th:case="2">사용정지</span>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:if="${admin.status == 0}">
+                        <!-- 링크주소 표시할때는 @안에 //(seq=${admin.seq})=>파라미터를 seq로 지정하고 
+                        그 값은 admin.seq로 지정하겠다.  -->
+                        <!-- /member/status => /member/status -->
+                        <!-- seq= => ?seq -->
+                        <!-- ${admin.seq} => =7 -->
+                        <a th:href="@{/member/status(seq=${admin.seq}, status=1)}">사용승인</a>
+                    </th:block>
+                    <th:block th:if="${admin.status == 1}">
+                        <a th:href="@{/member/status(seq=${admin.seq}, status=2)}">사용정지</a>
+                    </th:block>
+                    <th:block th:if="${admin.status == 2}">
+                        <a th:href="@{/member/status(seq=${admin.seq}, status=1)}">사용승인</a>
+                    </th:block>
+                </td>
+                <td>
+                    <a th:href="@{ /member/delete (seq=${admin.seq}) }">삭제</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <span th:each="num : ${#numbers.sequence(1, totalPage)}">
+            <a th:href="@{/member/list(page=${num-1}, size=10, sort=aiSeq, desc)}" th:text="${num}"></a>></a>
+        </span>
+    </div>
+</body>
+</html>
