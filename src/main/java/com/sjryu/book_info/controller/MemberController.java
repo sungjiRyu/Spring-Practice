@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sjryu.book_info.VO.AdminAccountinfoVO;
+import com.sjryu.book_info.VO.LoginUserVO;
 import com.sjryu.book_info.entity.AdminAccountEntity;
 import com.sjryu.book_info.repository.AdminAccountRepository;
 
 import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 // http://localhost:8080/member
@@ -97,9 +99,15 @@ public class MemberController {
     // 자바의 영속성 구조를 깨뜨리기 위해 DTO/VO를 만듬(테이블에 귀속되어 있지 않기 때문에 마음대로 써도 테이블에 영향x)
     @GetMapping("/list")
     public String memberList(Model model, 
-    Pageable pageable){
+    Pageable pageable, HttpSession session)
     // @RequestParam @Nullable Integer page,
     // @RequestParam @Nullable Integer size)
+    {
+        LoginUserVO login = (LoginUserVO)session.getAttribute("loginUser");
+        if(login == null) { // 로그인 데이터 없음 - 로그인 한 적이 없다.
+            return "redirect:/login";
+         }
+        
         // if(page == null) page = 0;
         // if(size == null) size = 10;
         Page<AdminAccountEntity> page = adminAccountRepository.findAll(pageable);

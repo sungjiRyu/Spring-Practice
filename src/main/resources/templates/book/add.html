@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {text-align: center;}
+        #input_form_table{margin:0 auto; border-collapse: collapse;}
+        #input_form_table input {width: 100px;}
+        #input_form_table input {padding: 10px;}
+    </style>
+</head>
+<body>
+    <h1>책 정보 추가</h1>
+<!-- bi_seq
+bi_title
+bi_sub_title
+bi_price
+bidiscount
+bi_point
+bi_pub_dt
+bi_wi_seq
+bi_ti_seq
+bi_pub_seq -->
+<form action="/book/add" method="post">
+    <table border="1" id="input_form_table">
+        <tbody>
+            <tr>
+                <td>책 제목</td>
+                <td><input type="text" name="title"></td>
+                <td>출간일</td>
+                <td><input type="text" name="pub_dt"></td>
+            </tr>
+            <tr>
+                <td>부제목</td>
+                <td><input type="text" name="sub_title"></td>
+            </tr>
+            <tr>
+                <td>작가</td>
+                <td>
+                    <select name="writer">
+                        <option value="0">선택안함</option>
+                        <option 
+                        th:each="writer, i : ${writerList}"
+                        th:text="${writer.wiName}" 
+                        th:value="${writer.wiSeq}"
+                        ></option>
+                </td>
+                <td>번역가</td>
+                <td>
+                    <select name="translator">
+                        <option value="0">선택안함</option>
+                        <option 
+                        th:each="translator, i : ${translatorList}"
+                        th:text="${translator.tiName}" 
+                        th:value="${translator.tiSeq}"
+                        ></option>
+                </td>
+                <td>출판사</td>
+                <td>
+                    <select name="publisherCompany">
+                        <option value="0">선택안함</option>
+                        <option 
+                        th:each="publisher, i : ${publisherCompanyList}"
+                        th:text="${publisher.pcName}" 
+                        th:value="${publisher.pcSeq}"
+                        ></option>
+                </td>
+            </tr>
+            <tr>
+                <td>가격</td>
+                <td><input type="number" name="price" min="0">원</td>
+                <td>할인율</td>
+                <td><input type="number" name="discount" min="0" max="100">%</td>
+                <td>적립율</td>
+                <td><input type="number" name="point" min="0" max="100">%</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button>저장</button>
+                    <a href="/">돌아가기</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
