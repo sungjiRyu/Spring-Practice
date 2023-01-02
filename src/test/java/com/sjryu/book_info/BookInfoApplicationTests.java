@@ -8,8 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sjryu.book_info.entity.AdminAccountEntity;
+import com.sjryu.book_info.entity.StudentInfoEntity;
+import com.sjryu.book_info.entity.StudentMajorEntity;
 import com.sjryu.book_info.repository.AdminAccountRepository;
 import com.sjryu.book_info.repository.BookInfoRepository;
+import com.sjryu.book_info.repository.StudentInfoRepository;
+import com.sjryu.book_info.repository.StudentMajorRepository;
 import com.sjryu.book_info.repository.WriterInfoRepository;
 
 @SpringBootTest
@@ -49,5 +53,29 @@ class BookInfoApplicationTests {
 	void writerFindAll(){
 		System.out.println(wRepo.findAll());
 	}
-	
+
+	@Autowired StudentMajorRepository majorRepo;
+	@Autowired StudentInfoRepository  stuRepo;		
+	@Test
+	void getStudents(){
+		System.out.println(stuRepo.findAll());
+	}
+	@Test
+	void getMajors(){
+		System.out.println(majorRepo.findAll());
+	}
+	@Test
+	void addStudent(){
+		StudentInfoEntity stu = new StudentInfoEntity();
+		stu.setStuName("이학생");
+		stu.setMajor(new StudentMajorEntity(null, "컴퓨터공학과"));
+		stuRepo.save(stu);
+	}
+	@Test
+	void addStudent2(){
+		StudentInfoEntity stu = new StudentInfoEntity();
+		stu.setStuName("박학생");
+		stu.setMajor(majorRepo.findById(3L).get());
+		stuRepo.save(stu);
+	}
 }

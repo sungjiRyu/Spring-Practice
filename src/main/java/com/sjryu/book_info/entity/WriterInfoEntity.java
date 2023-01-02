@@ -30,6 +30,6 @@ public class WriterInfoEntity {
     @Column(name = "wi_introduce")   private String wiIntroduce;
     @Column(name = "wi_img")         @ColumnDefault("writer_default.jpg")
     // 일대 다 관계 join
-    @OneToMany @JoinColumn(name = "bi_wi_seq") List<BookInfoEntity> books;
+    // @OneToMany @JoinColumn(name = "bi_wi_seq") List<BookInfoEntity> books;
     private String Wiimg;
 }
